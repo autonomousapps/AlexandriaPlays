@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AlexandriaPlays</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- Starting location -->
+    <string name="alexandria_lat">38.804836</string>
+    <string name="alexandria_long">-77.046921</string>
+
+
+</resources>
