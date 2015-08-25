@@ -1,17 +1,53 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
+        android:id="@+id/layout_place_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_small"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_restrooms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/text_water"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/text_seating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/text_shade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/text_age_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <include
         android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+        layout="@layout/fragment_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        map:cameraTargetLat="@string/alexandria_lat"
-        map:cameraTargetLng="@string/alexandria_long"
-        map:cameraZoom="12"
-        tools:context=".MapsActivity"
-        tools:ignore="MissingPrefix" />
-
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_weight="1"/>
 </RelativeLayout>
