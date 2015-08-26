@@ -1,20 +1,23 @@
 package com.autonomousapps.alexandriaplays.controllers;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.autonomousapps.alexandriaplays.R;
 import com.autonomousapps.alexandriaplays.net.Playground;
-import com.autonomousapps.alexandriaplays.net.ProjectPlayServiceImpl;
+import com.autonomousapps.alexandriaplays.net.ProjectPlayService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -30,7 +33,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+public class MapsActivity extends Activity implements OnMapReadyCallback, OnMapLoadedCallback,
         OnMarkerClickListener, OnMapClickListener {
     private static final String TAG = MapsActivity.class.getSimpleName();
 
@@ -41,8 +44,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Map<String, Playground> mPlaygroundMap;
 
     // Place info
+    @Bind(R.id.img_logo) protected ImageView mImgLogo;
     @Bind(R.id.sliding_layout) protected SlidingUpPanelLayout mSlidingUpPanelLayout;
-    //    @Bind(R.id.layout_place_info) protected ViewGroup mPlaceInfo;
+    @Bind(R.id.text_name) protected TextView mTextName;
     @Bind(R.id.text_restrooms) protected TextView mTextRestrooms;
     @Bind(R.id.text_water) protected TextView mTextWater;
     @Bind(R.id.text_seating) protected TextView mTextSeating;
@@ -59,7 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ButterKnife.bind(this);
 
         // Retrofit
-        ProjectPlayServiceImpl.INSTANCE.getAllPlaygrounds(new Callback<List<Playground>>() {
+        ProjectPlayService.instance().getAllPlaygrounds(new Callback<List<Playground>>() {
             @Override
             public void success(List<Playground> playgrounds, Response response) {
                 Log.v(TAG, "Retrofit successful in getting playgrounds. Returned: " + playgrounds.size());
@@ -75,22 +79,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        // SupportMapFragment is for use on devices at API level < 12
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         Log.d(TAG, "onMapReady()");
@@ -99,6 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapClickListener(this);
+        mMap.setOnMapLoadedCallback(this);
 
         // Add map marker for Alexandria
         LatLng alexandria = new LatLng(Double.parseDouble(getString(R.string.alexandria_lat)),
@@ -135,6 +129,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Display info window
         enableSlidingPanel(true);
         Playground playground = mPlaygroundMap.get(marker.getTitle());
+        mTextName.setText(playground.getName());
         mTextRestrooms.setText("Restrooms: " + yesOrNo(playground.getRestrooms() > 0));
         mTextSeating.setText("Seating: " + yesOrNo(playground.getSeating() > 0));
         mTextAgeLevel.setText("Age Level: " + playground.getAgelevel());
@@ -156,5 +151,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         }
+    }
+
+    /**
+     * Called when all the tiles necessary to render the map have loaded.
+     */
+    @Override
+    public void onMapLoaded() {
+        Log.d(TAG, "onMapLoaded()");
+        // TODO this is the world's latest splash screen
+        mImgLogo.animate().alpha(0).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                mImgLogo.setVisibility(View.GONE);
+            }
+        });
     }
 }

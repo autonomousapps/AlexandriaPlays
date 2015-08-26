@@ -6,5 +6,10 @@
     <string name="alexandria_lat">38.804836</string>
     <string name="alexandria_long">-77.046921</string>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_loading">Loading...</string>
+    <string name="content_description_logo">Project Play Logo</string>
+
 
 </resources>

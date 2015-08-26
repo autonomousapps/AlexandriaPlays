@@ -3,19 +3,41 @@ package com.autonomousapps.alexandriaplays.net;
 import java.util.List;
 
 import retrofit.Callback;
-import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit.RestAdapter;
 
 /**
- * Created by Tony Robalik (@AutonomousApps) on 8/24/15.
+ * Created by Tony Robalik (@AutonomousApps) on 8/25/15. Encapsulates this functionality in a pure
+ * Java class to permit unit testing.
  */
-public interface ProjectPlayService {
-    String ENDPOINT = "http://projectplay.herokuapp.com/playgrounds";
+public class ProjectPlayService {
 
-    @GET("/getPlaygrounds.json")
-    void getPlaygrounds(@Query("address") String address, @Query("radius") int radius,
-                        Callback<List<Playground>> callback);
+    // Singleton
+    private static ProjectPlayService INSTANCE;
 
-    @GET("/page.json/1/1000")
-    void getAllPlaygrounds(Callback<List<Playground>> callback);
+    // Retrofit service
+    private IProjectPlayService mService = null;
+
+    private ProjectPlayService() {
+        if (mService != null) return;
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(IProjectPlayService.ENDPOINT)
+                .build();
+        mService = restAdapter.create(IProjectPlayService.class);
+    }
+
+    public static ProjectPlayService instance() {
+        if (INSTANCE == null) {
+            synchronized (ProjectPlayService.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new ProjectPlayService();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public void getAllPlaygrounds(Callback<List<Playground>> callback) {
+        mService.getAllPlaygrounds(callback);
+    }
 }

@@ -2,23 +2,44 @@
     android:id="@+id/sliding_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:umanoOverlay="true"
     sothree:umanoInitialState="hidden"
+    sothree:umanoOverlay="true"
     sothree:umanoPanelHeight="@dimen/sliding_panel_height"
     sothree:umanoShadowHeight="4dp">
 
     <!-- Main content -->
-    <include
-        android:id="@+id/map"
-        layout="@layout/fragment_map"
+    <FrameLayout
+        android:id="@+id/layout_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MapsActivity"/>
+
+        <!--<FrameLayout-->
+        <!--android:id="@+id/container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
+
+        <!-- TODO this doesn't work, and I really don't understand why -->
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/content_description_logo"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_logo"/>
+
+    </FrameLayout>
 
     <!-- Sliding panel -->
     <LinearLayout
@@ -28,8 +49,15 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:background="@android:color/white"
         android:orientation="vertical"
         android:padding="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceLarge"/>
 
         <TextView
             android:id="@+id/text_restrooms"

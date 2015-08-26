@@ -33,5 +33,11 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'javax.annotation:javax.annotation-api:1.2'
+
+    //*** Test support
     testCompile 'junit:junit:4.12'
+    // Mocking
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    // Asynchronous testing with Awaitility
+    testCompile 'com.jayway.awaitility:awaitility:1.6.3'
 }
