@@ -10,6 +10,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_loading">Loading...</string>
     <string name="content_description_logo">Project Play Logo</string>
+    <string name="text_playground_details">Playground details</string>
+    <string name="content_description_slider">slider</string>
+    <string name="content_description_map">map</string>
 
 
 </resources>

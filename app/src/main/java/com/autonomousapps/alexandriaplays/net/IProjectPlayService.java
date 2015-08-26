@@ -18,4 +18,7 @@ public interface IProjectPlayService {
 
     @GET("/page.json/1/1000")
     void getAllPlaygrounds(Callback<List<Playground>> callback);
+
+//    @GET("/getPlacesURLforPlayground.json?name=Simpson%20Stadium%20Park")
+//    void getGooglePlace();
 }

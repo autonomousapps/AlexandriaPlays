@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
+    sothree:umanoAnchorPoint="0.5"
     sothree:umanoInitialState="hidden"
     sothree:umanoOverlay="true"
     sothree:umanoPanelHeight="@dimen/sliding_panel_height"
@@ -22,6 +23,7 @@
             android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/content_description_map"
             tools:context=".MapsActivity"/>
 
         <!--<FrameLayout-->
@@ -29,7 +31,6 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"/>-->
 
-        <!-- TODO this doesn't work, and I really don't understand why -->
         <ImageView
             android:id="@+id/img_logo"
             android:layout_width="wrap_content"
@@ -50,14 +51,32 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@android:color/white"
+        android:contentDescription="@string/content_description_slider"
         android:orientation="vertical"
         android:padding="@dimen/padding_small">
 
         <TextView
             android:id="@+id/text_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/sliding_panel_height"
             android:textAppearance="?android:textAppearanceLarge"/>
+
+        <ImageView
+            android:id="@+id/img_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_playground_details"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+        <TextView
+            android:id="@+id/text_attribution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/text_restrooms"
